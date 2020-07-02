@@ -49,7 +49,7 @@ class downloadingVideos():
             time.sleep(1)
             keyboard.press_and_release('end')
 
-        time.sleep(3)
+        time.sleep(5)
 
         allElems = driver.find_elements_by_class_name("tw-hover-accent-effect__children")
         time.sleep(2)
