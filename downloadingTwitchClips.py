@@ -38,21 +38,20 @@ class downloadingVideos():
         driver = self.driver
         mouse = self.mouse
         clipLinks = self.clipLinks
-
+        time.sleep(2)
         assert "Twitch" in driver.title
-        time.sleep(3)
 
         # clicking on window, the moving down to load more videos
         mouse.click(Button.left, 1)
         
-        for _ in range(4):
+        for _ in range(5):
             time.sleep(1)
             keyboard.press_and_release('end')
 
-        time.sleep(5)
+        time.sleep(3)
 
         allElems = driver.find_elements_by_class_name("tw-hover-accent-effect__children")
-        time.sleep(2)
+        time.sleep(6)
 
         for curDiv in allElems:
             # getting each Div element containing clips
@@ -64,17 +63,18 @@ class downloadingVideos():
                 # creating links and appending to array
                 clipLinks.append('https://twitch.tv' + result)
         print(f'Clips found: {len(clipLinks)} ')
-        driver.close()
+        driver.quit()
 
     def downloadingClips(self):
         clipDriver = self.driver
+        time.sleep(5)
         for curClip in self.clipLinks:
             time.sleep(1)
             clipDriver.get("https://clipr.xyz/")
             time.sleep(2)
 
             # Getting search div element
-            elem = clipDriver.find_element_by_id("clip_url")
+            elem = clipDriver.find_element_by_id("clip_url") # cant find element on page, maybe turn off healess to see what happends
             elem.clear()
             elem.send_keys(curClip)
             elem.send_keys(Keys.RETURN)
