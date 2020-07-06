@@ -14,16 +14,29 @@ import time
 import os
 
 class downloadingVideos():
-    def __init__(self, game, ranged):
-        self.clipLinks = []
+    def __init__(self, game, ranged, links):
+        self.clipLinks = [] if links == None else links
         self.mouse = Controller()
         self.driver = ''
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
+        self.testing = os.environ['testing'] or None # not working for some reason
  
     def allFunctions(self):
-        self.initializingDriver(False)
-        self.getAllClipLinks()
+        # If there are no links provided then get top links
+        print('TESTING: ', self.testing, 'actual variable: ', os.environ['testing'])
+        if len(self.clipLinks) == 0: 
+            self.initializingDriver(False)
+            self.getAllClipLinks()
+        elif len(self.clipLinks) == 1:
+
+            if self.testing:
+                print(self.testing)
+                return 'Please enter more than one video' 
+            else:
+                print(self.testing)
+                raise SystemExit('Please enter more than one video')
+
         self.initializingDriver(True)
         self.downloadingClips()
 
@@ -89,4 +102,7 @@ class downloadingVideos():
             print(result)
             # refreshing page to search again 
             clipDriver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'r')
-        clipDriver.close()
+        clipDriver.quit()
+
+    def close_driver(self):
+        self.driver.quit()
