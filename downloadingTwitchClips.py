@@ -20,21 +20,18 @@ class downloadingVideos():
         self.driver = ''
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
-        self.testing = os.environ['testing'] or None # not working for some reason
+        self.testing = os.environ['testing'] or None 
  
     def allFunctions(self):
         # If there are no links provided then get top links
-        print('TESTING: ', self.testing, 'actual variable: ', os.environ['testing'])
         if len(self.clipLinks) == 0: 
             self.initializingDriver(False)
             self.getAllClipLinks()
         elif len(self.clipLinks) == 1:
-
+            # if testing then return error if not, the return error 
             if self.testing:
-                print(self.testing)
                 return 'Please enter more than one video' 
             else:
-                print(self.testing)
                 raise SystemExit('Please enter more than one video')
 
         self.initializingDriver(True)
@@ -99,7 +96,7 @@ class downloadingVideos():
             values = download[1].get_attribute('innerHTML').split(" ")
             videoLink = gettingLinks(values[-11], 2, self.game)
             result = downloadingVideo(videoLink)
-            print(result)
+
             # refreshing page to search again 
             clipDriver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'r')
         clipDriver.quit()
