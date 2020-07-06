@@ -10,7 +10,8 @@ import os
 def gettingAllGames():
     print(game_dict.keys())
     for key in game_dict.keys():
-        downloadingVideosClass = downloadingVideos(key, '7d')
+        # downloadingVideos('game', 'range', [links])
+        downloadingVideosClass = downloadingVideos(key, '7d', None)
         grabbingLinks(downloadingVideosClass)
 
         # delete previous videos 
