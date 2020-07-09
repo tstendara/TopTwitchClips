@@ -19,11 +19,6 @@ def gettingAllGames(): # if game isnt present then return all videos for all gam
 
     return
 
-def grabbingLinks(grabbing_and_downloading):
-    grabbing_and_downloading.allFunctions()
-    creatingVideo(grabbing_and_downloading)
-    return True
-
 def clearVideos():
     os.system('rm videos/*')
 

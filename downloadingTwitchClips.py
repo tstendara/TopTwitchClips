@@ -20,19 +20,18 @@ class downloadingVideos():
         self.driver = ''
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
-        self.testing = os.environ['testing'] or None 
  
     def allFunctions(self):
         # If there are no links provided then get top links
         if len(self.clipLinks) == 0: 
             self.initializingDriver(False)
             self.getAllClipLinks()
-        elif len(self.clipLinks) == 1:
+        # elif len(self.clipLinks) == 1:
             # if testing then return error if not, the return error 
-            if self.testing:
-                return 'Please enter more than one video' 
-            else:
-                raise SystemExit('Please enter more than one video')
+            # if self.testing:
+            #     return 'Please enter more than one video' 
+            # else:
+            #     raise SystemExit('Please enter more than one video')
 
         self.initializingDriver(True)
         self.downloadingClips()
@@ -50,8 +49,10 @@ class downloadingVideos():
         clipLinks = self.clipLinks
         time.sleep(2)
         assert "Twitch" in driver.title
-
+        # driver.execute_script('document.body.style.MozTransform = "scale(0.50)";')
+        # driver.execute_script('document.body.style.MozTransformOrigin = "0 0";')
         # clicking on window, the moving down to load more videos
+
         mouse.click(Button.left, 1)
         
         for _ in range(5):

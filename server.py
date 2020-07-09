@@ -19,3 +19,7 @@ def supported_games():
     games = [x for x in game_dict.keys()]
     
     return json.dumps(games)
+
+@app.route('/submitForm', methods=['POST', 'GET'])
+def submitForm():
+    # submitting form to create video
