@@ -47,9 +47,5 @@ class testing(TestCase):
         
         self.assertEqual(found, True)
 
-
-
-
 if __name__ == "__main__":
-    
     unittest.main()

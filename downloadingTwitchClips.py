@@ -47,7 +47,6 @@ class downloadingVideos():
         clipLinks = self.clipLinks
         time.sleep(2)
         assert "Twitch" in driver.title
-
         driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div/main/div[1]/div[3]/div/div/div/div[1]/div[2]/div/div[2]/div[3]').click()
         page = driver.find_element_by_tag_name('body')
        
@@ -55,19 +54,16 @@ class downloadingVideos():
             page.send_keys(Keys.PAGE_DOWN)
             time.sleep(2)
 
-        time.sleep(6)
-
+        time.sleep(2)
         allElems = driver.find_elements_by_class_name("tw-hover-accent-effect__children")
         time.sleep(10)
 
         for curDiv in allElems:
             # getting each Div element containing clips
-            values = curDiv.get_attribute('innerHTML').split(" ")
-            # getting the href prop within a  
+            values = curDiv.get_attribute('innerHTML').split(" ") 
             result = gettingLinks(values[4], 1, self.game)
             # checking to see if approved channel
             if result != False:
-                # creating links and appending to array
                 clipLinks.append('https://twitch.tv' + result)
         print(f'Clips found: {len(clipLinks)} ')
         driver.quit()
@@ -81,7 +77,7 @@ class downloadingVideos():
             time.sleep(2)
 
             # Getting search div element
-            elem = clipDriver.find_element_by_id("clip_url") # cant find element on page, maybe turn off healess to see what happends
+            elem = clipDriver.find_element_by_id("clip_url") 
             elem.clear()
             elem.send_keys(curClip)
             elem.send_keys(Keys.RETURN)
@@ -89,12 +85,12 @@ class downloadingVideos():
             clipDriver.implicitly_wait(2)
             download = clipDriver.find_elements_by_css_selector("div[class='col-md-12']")
 
-            # splitting div with mp4 file
+            # splitting div to get mp4 link
             values = download[1].get_attribute('innerHTML').split(" ")
             videoLink = gettingLinks(values[-11], 2, self.game)
             result = downloadingVideo(videoLink)
 
-            # refreshing page to search again 
+            # refreshing page
             clipDriver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'r')
         clipDriver.quit()
 
