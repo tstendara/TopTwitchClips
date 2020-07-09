@@ -17,28 +17,29 @@ class downloadingVideos():
     def __init__(self, game, ranged, links):
         self.clipLinks = [] if links == None else links
         self.mouse = Controller()
-        self.driver = ''
+        self.driver = {}
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
+        self.testing = False if os.environ['testing'] == 'False' else True
  
     def allFunctions(self):
         # If there are no links provided then get top links
         if len(self.clipLinks) == 0: 
             self.initializingDriver(False)
             self.getAllClipLinks()
-        # elif len(self.clipLinks) == 1:
+        elif len(self.clipLinks) == 1:
             # if testing then return error if not, the return error 
-            # if self.testing:
-            #     return 'Please enter more than one video' 
-            # else:
-            #     raise SystemExit('Please enter more than one video')
-
+            if self.testing:
+                return 'Please enter more than one video' 
+            else:
+                raise SystemExit('Please enter more than one video')
+        
         self.initializingDriver(True)
         self.downloadingClips()
 
     def initializingDriver(self, headless):
         fireFoxOptions = webdriver.FirefoxOptions()
-        fireFoxOptions.set_headless() if headless else None
+        fireFoxOptions.headless = True if headless else None
         driver = webdriver.Firefox(options=fireFoxOptions)
         driver.get(f"https://www.twitch.tv/directory/game/{self.game}/clips?range={self.ranged}") if headless == False else None
         self.driver = driver

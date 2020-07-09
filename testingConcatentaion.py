@@ -1,6 +1,8 @@
 from downloadingTwitchClips import downloadingVideos
+from concatenatingClips import creatingVideo
 from unittest import TestCase
 import unittest
+import os
 downloadingVideosClass = downloadingVideos('Overwatch', '7d', None)
 
 class testing(TestCase):
@@ -30,12 +32,22 @@ class testing(TestCase):
 
         self.assertEqual(len(links) > 1, True)
 
-    # def test_with_one_video(self):
-    #     downloadingVideosClass = downloadingVideos('Overwatch', '7d', [''])
-    #     output = downloadingVideosClass.allFunctions()
-    #     boolean = output == 'Please enter more than one video'  
+    def test_with_one_video(self):
+        downloadingVideosClass = downloadingVideos('Overwatch', '7d', [''])
+        output = downloadingVideosClass.allFunctions()
+        boolean = output == 'Please enter more than one video'  
 
-    #     self.assertEqual(boolean, True)
+        self.assertEqual(boolean, True)
+
+    def test_video_creation_Wlinks(self):
+        downloadingVideosClass = downloadingVideos('Overwatch', '7d', ['https://www.twitch.tv/bugha/clip/PrettyBelovedBananaWholeWheat', 'https://www.twitch.tv/bugha/clip/CoweringSmokyWolfPeteZaroll'])
+        downloadingVideosClass.allFunctions()
+        creatingVideo(downloadingVideosClass)
+        found = True if 'Overwatch.mp4' in os.listdir('./output') else False
+
+        self.assertEqual(found, True)
+
+
 
 
 if __name__ == "__main__":
