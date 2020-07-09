@@ -20,7 +20,7 @@ class downloadingVideos():
         self.driver = {}
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
-        self.testing = False if os.environ['testing'] == 'False' else True
+        self.testing = True if 'testing' in os.environ else False
  
     def allFunctions(self):
         # If there are no links provided then get top links
