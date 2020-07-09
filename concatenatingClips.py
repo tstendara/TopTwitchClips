@@ -7,7 +7,7 @@ import os
 
 # ranged = '24hr', '7d', '30d', 'all'
 # games = 'Overwatch', 'Fortnite', 'Valorant'
-def gettingAllGames():
+def gettingAllGames(): # if game isnt present then return all videos for all games in library
     print(game_dict.keys())
     for key in game_dict.keys():
         # downloadingVideos('game', 'range', [links])
@@ -17,12 +17,7 @@ def gettingAllGames():
         # delete previous videos 
         clearVideos()
 
-    return 'finished'
-
-def grabbingLinks(grabbing_and_downloading):
-    grabbing_and_downloading.allFunctions()
-    creatingVideo(grabbing_and_downloading)
-    return True
+    return
 
 def clearVideos():
     os.system('rm videos/*')
@@ -32,7 +27,7 @@ def creatingVideo(twitchClipsClass):
     print('Creating video, go grab a coffee or go for a walk')
     Allclips = []
     for file in os.listdir('./videos'):
-        if(file != '.DS_Store'):  
+        if(file != '.DS_Store'): 
             Allclips.insert(0, VideoFileClip('./videos/' + file).resize((1920,1080)).set_fps(60))
 
     final_clip = concatenate_videoclips(Allclips)

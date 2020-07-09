@@ -30,12 +30,12 @@ class testing(TestCase):
 
         self.assertEqual(len(links) > 1, True)
 
-    def test_with_one_video(self):
-        downloadingVideosClass = downloadingVideos('Overwatch', '7d', [''])
-        output = downloadingVideosClass.allFunctions()
-        boolean = output == 'Please enter more than one video'  
+    # def test_with_one_video(self):
+    #     downloadingVideosClass = downloadingVideos('Overwatch', '7d', [''])
+    #     output = downloadingVideosClass.allFunctions()
+    #     boolean = output == 'Please enter more than one video'  
 
-        self.assertEqual(boolean, True)
+    #     self.assertEqual(boolean, True)
 
 
 if __name__ == "__main__":
