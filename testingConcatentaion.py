@@ -47,5 +47,14 @@ class testing(TestCase):
         
         self.assertEqual(found, True)
 
+    def test_random_clips(self):
+        downloadingVideosClass = downloadingVideos('Overwatch', '7d', None)
+        downloadingVideosClass.allFunctions()
+        creatingVideo(downloadingVideosClass())
+        found = True if 'Overwatch.mp4' in os.listdir('./output') else False
+        os.system("rm videos/*; rm output/*")
+        
+        self.assertEqual(found, True)
+
 if __name__ == "__main__":
     unittest.main()

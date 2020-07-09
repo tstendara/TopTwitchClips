@@ -59,6 +59,8 @@ class downloadingVideos():
         time.sleep(10)
 
         for curDiv in allElems:
+            if len(clipLinks) == 30:
+                break
             # getting each Div element containing clips
             values = curDiv.get_attribute('innerHTML').split(" ") 
             result = gettingLinks(values[4], 1, self.game)
