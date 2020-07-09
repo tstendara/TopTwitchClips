@@ -20,7 +20,6 @@ class testing(TestCase):
         
     def test_finding_links(self):
         links = downloadingVideosClass.clipLinks
-
         downloadingVideosClass.initializingDriver(False)
         downloadingVideosClass.getAllClipLinks()
 
@@ -44,7 +43,8 @@ class testing(TestCase):
         downloadingVideosClass.allFunctions()
         creatingVideo(downloadingVideosClass)
         found = True if 'Overwatch.mp4' in os.listdir('./output') else False
-
+        os.system("rm videos/*; rm output/*")
+        
         self.assertEqual(found, True)
 
 
