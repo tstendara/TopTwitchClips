@@ -20,7 +20,7 @@ class testing(TestCase):
         
     def test_finding_links(self):
         links = downloadingVideosClass.clipLinks
-        downloadingVideosClass.initializingDriver(False)
+        downloadingVideosClass.initializingDriver()
         downloadingVideosClass.getAllClipLinks()
 
         self.assertEqual(len(links) > 1, True)

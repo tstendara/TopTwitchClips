@@ -8,7 +8,6 @@ from selenium.webdriver.support.expected_conditions import presence_of_element_l
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from helpers.downloadingVideos_helper import downloadingVideo
-from pynput.mouse import Button, Controller
 import keyboard
 import time
 import os
@@ -16,7 +15,6 @@ import os
 class downloadingVideos():
     def __init__(self, game, ranged, links):
         self.clipLinks = [] if links == None else links
-        self.mouse = Controller()
         self.driver = {}
         self.game = game # 'Overwatch'
         self.ranged = ranged # '7d'
@@ -25,7 +23,7 @@ class downloadingVideos():
     def allFunctions(self):
         # If there are no links provided then get top links
         if len(self.clipLinks) == 0: 
-            self.initializingDriver(False)
+            self.initializingDriver()
             self.getAllClipLinks()
         elif len(self.clipLinks) == 1:
             # if testing then return error if not, the return error 
@@ -34,19 +32,18 @@ class downloadingVideos():
             else:
                 raise SystemExit('Please enter more than one video')
         
-        self.initializingDriver(True)
+        self.initializingDriver()
         self.downloadingClips()
 
-    def initializingDriver(self, headless):
+    def initializingDriver(self):
         fireFoxOptions = webdriver.FirefoxOptions()
-        fireFoxOptions.headless = True if headless else None
+        fireFoxOptions.headless = True 
         driver = webdriver.Firefox(options=fireFoxOptions)
-        driver.get(f"https://www.twitch.tv/directory/game/{self.game}/clips?range={self.ranged}") if headless == False else None
+        driver.get(f"https://www.twitch.tv/directory/game/{self.game}/clips?range={self.ranged}") 
         self.driver = driver
 
     def getAllClipLinks(self):
         driver = self.driver
-        mouse = self.mouse
         clipLinks = self.clipLinks
         time.sleep(2)
         assert "Twitch" in driver.title
