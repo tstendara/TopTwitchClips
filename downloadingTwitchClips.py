@@ -50,20 +50,18 @@ class downloadingVideos():
         clipLinks = self.clipLinks
         time.sleep(2)
         assert "Twitch" in driver.title
-        # driver.execute_script('document.body.style.MozTransform = "scale(0.50)";')
-        # driver.execute_script('document.body.style.MozTransformOrigin = "0 0";')
-        # clicking on window, the moving down to load more videos
 
-        mouse.click(Button.left, 1)
-        
-        for _ in range(5):
-            time.sleep(1)
-            keyboard.press_and_release('end')
+        driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div/main/div[1]/div[3]/div/div/div/div[1]/div[2]/div/div[2]/div[3]').click()
+        page = driver.find_element_by_tag_name('body')
+       
+        for _ in range(10):
+            page.send_keys(Keys.PAGE_DOWN)
+            time.sleep(2)
 
-        time.sleep(3)
+        time.sleep(6)
 
         allElems = driver.find_elements_by_class_name("tw-hover-accent-effect__children")
-        time.sleep(6)
+        time.sleep(10)
 
         for curDiv in allElems:
             # getting each Div element containing clips
