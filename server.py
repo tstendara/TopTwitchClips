@@ -20,6 +20,6 @@ def supported_games():
     
     return json.dumps(games)
 
-@app.route('/submitForm', methods=['POST', 'GET'])
-def submitForm():
-    # submitting form to create video
+# @app.route('/submitForm', methods=['POST', 'GET'])
+# def submitForm():
+#     # submitting form to create video
