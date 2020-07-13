@@ -50,7 +50,7 @@ class testing(TestCase):
     def test_random_clips(self):
         downloadingVideosClass = downloadingVideos('Overwatch', '7d', None)
         downloadingVideosClass.allFunctions()
-        creatingVideo(downloadingVideosClass())
+        creatingVideo(downloadingVideosClass)
         found = True if 'Overwatch.mp4' in os.listdir('./output') else False
         os.system("rm videos/*; rm output/*")
         
