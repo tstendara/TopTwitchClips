@@ -7,7 +7,7 @@ def getChannelName(string):
         channel = ''
         for char in range(len(string)-1):
             curChar = string[char]
-            if char > 0:
+            if char != 0:
                 if curChar == '/':
                     return channel
                 else:
@@ -27,13 +27,11 @@ def gettingLinks(linkValue, func, game):
             elif(nextChar == '"'):
                 link += curChar
                 if func == 1:
-                    print(link)
                     channel = getChannelName(link)
                     #Checking to see if channel is in approved channels
                     if channel in allChannels:
                         return link
                     else:
-                        print('NOT APPROVED!')
                         return False
                 elif func == 2:
                     return 'https://' + link[2:len(link)]
@@ -45,8 +43,7 @@ def randomizeVideoName():
 
 def downloadingVideo(link):
     os.system(f'cd videos;curl -O {link}')
-    time.sleep(3)
-    return ''
+
 
 
     
