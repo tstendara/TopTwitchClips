@@ -26,7 +26,6 @@ class downloadingVideos():
             self.initializingDriver()
             self.getAllClipLinks()
         elif len(self.clipLinks) == 1:
-            # if testing then return error if not, the return error 
             if self.testing:
                 return 'Please enter more than one video' 
             else:
@@ -50,14 +49,13 @@ class downloadingVideos():
         driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div/main/div[1]/div[3]/div/div/div/div[1]/div[2]/div/div[2]/div[3]').click()
         page = driver.find_element_by_tag_name('body')
        
-        for _ in range(10):
+        for _ in range(5):
             page.send_keys(Keys.PAGE_DOWN)
             time.sleep(2)
-
-        time.sleep(2)
+        
         allElems = driver.find_elements_by_class_name("tw-hover-accent-effect__children")
         time.sleep(10)
-
+        # limit num of clips
         for curDiv in allElems:
             if len(clipLinks) == 30:
                 break
@@ -71,30 +69,30 @@ class downloadingVideos():
         driver.quit()
 
     def downloadingClips(self):
-        clipDriver = self.driver
-        time.sleep(5)
+        driver = self.driver
+
         for curClip in self.clipLinks:
             time.sleep(1)
-            clipDriver.get("https://clipr.xyz/")
+            driver.get("https://clipr.xyz/")
             time.sleep(2)
 
             # Getting search div element
-            elem = clipDriver.find_element_by_id("clip_url") 
+            elem = driver.find_element_by_id("clip_url") 
             elem.clear()
             elem.send_keys(curClip)
             elem.send_keys(Keys.RETURN)
 
-            clipDriver.implicitly_wait(2)
-            download = clipDriver.find_elements_by_css_selector("div[class='col-md-12']")
+            driver.implicitly_wait(2)
+            download = driver.find_elements_by_css_selector("div[class='col-md-12']")
 
             # splitting div to get mp4 link
             values = download[1].get_attribute('innerHTML').split(" ")
             videoLink = gettingLinks(values[-11], 2, self.game)
-            result = downloadingVideo(videoLink)
+            downloadingVideo(videoLink)
 
             # refreshing page
-            clipDriver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'r')
-        clipDriver.quit()
+            driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'r')
+        driver.quit()
 
     def close_driver(self):
         self.driver.quit()
