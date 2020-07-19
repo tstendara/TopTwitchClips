@@ -57,7 +57,8 @@ class downloadingVideos():
         time.sleep(10)
         # limit num of clips
         for curDiv in allElems:
-            if len(clipLinks) == 30:
+            maxClips = 3 if self.testing else 30
+            if len(clipLinks) == maxClips:
                 break
             # getting each Div element containing clips
             values = curDiv.get_attribute('innerHTML').split(" ") 

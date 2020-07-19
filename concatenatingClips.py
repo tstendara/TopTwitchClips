@@ -40,4 +40,3 @@ def creatingVideo(twitchClipsClass):
 
 if __name__ == "__main__":
     gettingAllGames()
-    
