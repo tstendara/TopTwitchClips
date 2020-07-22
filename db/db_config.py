@@ -52,7 +52,6 @@ class MongoDb(Db_helper):
     # returns success statement if account wasnt used
     def signUp(self):
         # check to see if proper email when input isnt focused on anymore
-        Db_helper.resetPassword("")
         checkingEmail = self.dupEmail()
         userExists = True if checkingEmail == None else False
 
@@ -83,9 +82,9 @@ class MongoDb(Db_helper):
             temporaryPassword = Db_helper.temporary_password()
             # creating document to hold temp_password for account recovery with and expiration time of 2 min -> (https://docs.mongodb.com/manual/tutorial/expire-data/)
             db.insert_one({"createdAt": datetime.datetime.now().isoformat(), "temp_pass": temporaryPassword})
-            Db_helper.resetPassword("")
+            
             # send email with temporaryPassword and have it redirect to page to change password
-
+            # Db_helper.sendingTempPass(self.username)
         else:
             return 'no account with that email was found'
 
