@@ -1,12 +1,14 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from db_helpers import Db_helper
 import datetime
 
-class MongoDb():
+class MongoDb(Db_helper):
     # This class is for connecting to the mongoDb instance and is responsible for
     # all core functions such as logging in, signing up, recovery password.
 
     def __init__(self, email, password, twitchUsername):
+        Db_helper.__init__(self)
         self.username = email
         self.password = password
         self.twitchUsername = twitchUsername
@@ -19,7 +21,6 @@ class MongoDb():
         if conn is None:
             return conn
         else:
-
             return conn
 
     def initializingConnection(self):
@@ -27,8 +28,8 @@ class MongoDb():
         if conn == None:
             return None
         else:
-            self.conn = conn
-            client = conn
+            # self.conn = conn
+            self.conn, client = conn, conn
         
         db = client['makingVideos']
         self.db = db
@@ -51,13 +52,14 @@ class MongoDb():
     # returns success statement if account wasnt used
     def signUp(self):
         # check to see if proper email when input isnt focused on anymore
+        Db_helper.resetPassword("")
         checkingEmail = self.dupEmail()
         userExists = True if checkingEmail == None else False
 
         if userExists:
             return self.storeAccount() == 'successfully made account!'
         else:
-            return userExists
+            return False
 
     def deleteUser(self):
         posts = self.db.posts
@@ -71,19 +73,19 @@ class MongoDb():
         return 'successfully made account!'
 
     def sendingRecoveryPassword(self):
-        # need to send unique password to email, and store the unique password to 
-        # users account in mongo with expiration time.
         posts = self.db.posts
+        # Email should exist in db
         emailExists = posts.find_one({'email': self.username})
 
         if emailExists:
             client = self.db
             db = client['recoveryAccount']
+            temporaryPassword = Db_helper.temporary_password()
+            # creating document to hold temp_password for account recovery with and expiration time of 2 min -> (https://docs.mongodb.com/manual/tutorial/expire-data/)
+            db.insert_one({"createdAt": datetime.datetime.now().isoformat(), "temp_pass": temporaryPassword})
+            Db_helper.resetPassword("")
+            # send email with temporaryPassword and have it redirect to page to change password
 
-            # create expiring document with object id, recovery password, and email of account 
-            db.insert_one({"createdAt": datetime.datetime.now(), "logEvent": 2, "temp_pass": "testingFunc"})
-            # send email
-            
         else:
             return 'no account with that email was found'
 
