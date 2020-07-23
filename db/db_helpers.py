@@ -11,7 +11,7 @@ class Db_helper():
         def hexGen():
             result = ""
             pick_from = hex_digits
-            for digit in range(12):
+            for digit in range(random.randint(7, 13):
                 cur_digit = random.sample(hex_digits, 1)[0]
                 result += cur_digit
                 if result[-1] == cur_digit:
