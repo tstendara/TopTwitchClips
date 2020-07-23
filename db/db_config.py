@@ -2,10 +2,15 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from db_helpers import Db_helper
 import datetime
+import os
 
 class MongoDb(Db_helper):
     # This class is for connecting to the mongoDb instance and is responsible for
     # all core functions such as logging in, signing up, recovery password.
+    # 
+    # Current Database info:
+    # makingVideos.posts - User account information
+    # makingVideos.recoveryAccount - Temporary passwords
 
     def __init__(self, email, password, twitchUsername):
         Db_helper.__init__(self)
@@ -28,7 +33,6 @@ class MongoDb(Db_helper):
         if conn == None:
             return None
         else:
-            # self.conn = conn
             self.conn, client = conn, conn
         
         db = client['makingVideos']
@@ -80,18 +84,42 @@ class MongoDb(Db_helper):
             client = self.db
             db = client['recoveryAccount']
             temporaryPassword = Db_helper.temporary_password()
+            now = datetime.datetime.utcnow()
+
             # creating document to hold temp_password for account recovery with and expiration time of 2 min -> (https://docs.mongodb.com/manual/tutorial/expire-data/)
-            db.insert_one({"createdAt": datetime.datetime.now().isoformat(), "temp_pass": temporaryPassword})
+            db.insert_one({"createdAt": now, "logEvent": 2, "temp_pass": temporaryPassword, "email": self.username})
+            # Once user enters email to send temp password to then the page will change
+            # to a verification input awaiting the users temporary password
+            testing = True if "testing" in os.environ else False
             
-            # send email with temporaryPassword and have it redirect to page to change password
-            # Db_helper.sendingTempPass(self.username)
+            if testing:
+                return temporaryPassword
+            else:
+                # send email with temporaryPassword and email in order to find account information 
+                Db_helper.sendingTempPass(self.username, temporaryPassword)
         else:
             return 'no account with that email was found'
 
-    def receivingRecoveryPassword(self, temporaryPass):
-        # findout if temporary pass matches temporary password in makingVideos_recovery collection 
+    def recoveryEmail(self, temporaryPass):
+        # findout if temporary pass matches temporary password in makingVideos.recoveryAccount collection 
         client = self.db
         db = client['recoveryAccount']
+
+        tempInfo = db.find_one({"temp_pass": temporaryPass})
+
+        if tempInfo:
+            email = tempInfo['email']
+            return email
+        else:
+            return None
+
+    def resettingPassword(self, email, newPassword):    
+        client = self.db
+        db = client['posts']
+        userInformation = db.find_one({"email": email})
+
+        userInformation['pass'] = newPassword
+        db.save(userInformation)
         
     def gettingAllUsers(self):
         # Will be used to get all users, and start making videos
