@@ -24,7 +24,7 @@ class testingDb(unittest.TestCase):
 
     def test_delete_account(self):
         config.deleteUser()
-        config.username, config.password, config.twitchUsername = 'email@example.com', 'newPassword', 'twitch_user'
+        config.username, config.password, config.twitchUsername = 'email@example.com', 'newpassword', 'twitch_user'
         successfulLogin = config.login()
         self.assertEqual(successfulLogin, None)
 
@@ -39,6 +39,7 @@ class testingDb(unittest.TestCase):
             email = config.recoveryEmail(temporaryPassword)
             if email:
                 config.resettingPassword(email, 'newpassword')
+                config.deleteUser()
                 self.assertEqual(True, True)
             else:
                 self.assertEqual(print(email), 'Didnt get back email needed to reset password | There was a problem finding the temporary password in makingVideos.recoveryAccount')

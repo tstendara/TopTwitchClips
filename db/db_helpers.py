@@ -3,6 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from emailTemplate import recoveryPassword
 import smtplib, ssl
 import random
+import os
 
 class Db_helper():
     def temporary_password():
@@ -28,7 +29,7 @@ class Db_helper():
         port = 587  # For starttls
         reciever_email = receiver
         sender_email = "automaticeditor@gmail.com"
-        password = "Qazxswedc#3"
+        password = os.environ['password']
 
         message = MIMEMultipart("alternative")
         message["Subject"] = "multipart test"
