@@ -1,5 +1,5 @@
 export testing=True
 
-python ../testingConcatentaion.py
+python ../db/testing_db.py
 
 unset testing
