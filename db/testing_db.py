@@ -39,7 +39,6 @@ class testingDb(unittest.TestCase):
             email = config.recoveryEmail(temporaryPassword)
             if email:
                 config.resettingPassword(email, 'newpassword')
-                config.deleteUser()
                 self.assertEqual(True, True)
             else:
                 self.assertEqual(print(email), 'Didnt get back email needed to reset password | There was a problem finding the temporary password in makingVideos.recoveryAccount')
