@@ -38,6 +38,7 @@ class MongoDb(Db_helper):
         db = client['makingVideos']
         self.db = db
 
+    # returns True if successful else None
     def dupEmail(self):
         posts = self.db.posts
         result = posts.find_one({"email": self.username})
@@ -46,14 +47,14 @@ class MongoDb(Db_helper):
 
         return output
 
-    # returns True if login is successful
+    # returns True if successful else None
     def login(self):
         posts = self.db.posts
         result = posts.find_one({"email": self.username, "pass": self.password})
         output = True if result != None else None
         return output
 
-    # returns success statement if account wasnt used
+    # returns True if successful else False
     def signUp(self):
         # check to see if proper email when input isnt focused on anymore
         checkingEmail = self.dupEmail()
@@ -95,13 +96,12 @@ class MongoDb(Db_helper):
             if testing:
                 return temporaryPassword
             else:
-                # send email with temporaryPassword and email in order to find account information 
                 Db_helper.sendingTempPass(self.username, temporaryPassword)
         else:
             return 'no account with that email was found'
 
     def recoveryEmail(self, temporaryPass):
-        # findout if temporary pass matches temporary password in makingVideos.recoveryAccount collection 
+        # findout if temporary password matches temporary password in makingVideos.recoveryAccount collection 
         client = self.db
         db = client['recoveryAccount']
 
