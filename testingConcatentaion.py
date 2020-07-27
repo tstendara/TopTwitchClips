@@ -39,7 +39,7 @@ class testing(TestCase):
         self.assertEqual(boolean, True)
 
     def test_video_creation_Wlinks(self):
-        downloadingVideosClass = downloadingVideos('Overwatch', '7d', ['https://www.twitch.tv/bugha/clip/PrettyBelovedBananaWholeWheat', 'https://www.twitch.tv/bugha/clip/CoweringSmokyWolfPeteZaroll'])
+        downloadingVideosClass = dowanloadingVideos('Overwatch', '7d', ['https://www.twitch.tv/bugha/clip/PrettyBelovedBananaWholeWheat', 'https://www.twitch.tv/bugha/clip/CoweringSmokyWolfPeteZaroll'])
         downloadingVideosClass.allFunctions()
         creatingVideo(downloadingVideosClass)
         found = True if 'Overwatch.mp4' in os.listdir('./output') else False
