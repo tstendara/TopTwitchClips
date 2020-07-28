@@ -13,6 +13,9 @@ import time
 import os
 
 class downloadingVideos():
+    # This class grabs links to clips and downloads the clips for the
+    # selected game over a range of time.
+
     def __init__(self, game, ranged, links):
         self.clipLinks = [] if links == None else links
         self.driver = {}
@@ -38,6 +41,9 @@ class downloadingVideos():
         fireFoxOptions = webdriver.FirefoxOptions()
         fireFoxOptions.headless = True 
         driver = webdriver.Firefox(options=fireFoxOptions)
+        # depending on whether this video is being made for the user other than the link 
+        # needs to be switched and if its a general video made for a specific game
+        # then use this:
         driver.get(f"https://www.twitch.tv/directory/game/{self.game}/clips?range={self.ranged}") 
         self.driver = driver
 
